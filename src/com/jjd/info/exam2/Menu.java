@@ -1,4 +1,4 @@
-package exam2;
+package com.jjd.info.exam2;
 
 import java.util.HashMap;
 

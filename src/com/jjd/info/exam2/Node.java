@@ -1,4 +1,4 @@
-package exam2;
+package com.jjd.info.exam2;
 
 public class Node {
     private String heading;
