@@ -6,6 +6,10 @@ import java.util.Scanner;
 public class Game {
 
     private static final ArrayList<Node> nodes = new ArrayList<>();
+    private static boolean save = false;
+    private static int resultSave;
+
+
 
 
     public static ArrayList<Node> createNodes() {
@@ -26,8 +30,12 @@ public class Game {
     }
 
 
-    public static int playGame(int startIndexGame, TxtHandler txtHandler) {
+
+    public static int playGame(int startIndexGame) {
+
+
         boolean finishGame = true;
+
 
         ArrayList<Node> arrayList = createNodes();
 
@@ -46,7 +54,13 @@ public class Game {
 
                 result = arrayList.get(startIndexGame).getFirstResult();
                 if (result.contains("Вернуться домой")) {
-                    System.out.println(arrayList.get(startIndexGame + 1).getText());
+                    for (Node s:arrayList) {
+                        if (result.contains(s.getHeading())){
+                            System.out.println(s.getText());
+                            break;
+                        }
+                    }
+                    save = false;
                     finishGame = false;
                     break;
                 }
@@ -57,6 +71,7 @@ public class Game {
                         System.out.println(node.getText());
                         if (node.getFirstResult() == null && node.getSecondResult() == null) {
                             System.out.println(" Вы проиграли");
+                            save = false;
                             finishGame = false;
                             break;
                         }
@@ -73,7 +88,13 @@ public class Game {
 
                 result = arrayList.get(startIndexGame).getSecondResult();
                 if (result.contains("Вернуться домой")) {
-                    System.out.println(arrayList.get(startIndexGame + 1).getText());
+                    for (Node s:arrayList) {
+                        if (result.contains(s.getHeading())){
+                            System.out.println(s.getText());
+                            break;
+                        }
+                    }
+                    save = false;
                     finishGame = false;
                     break;
                 }
@@ -82,9 +103,11 @@ public class Game {
                     if (result.contains(node.getHeading())) {
                         System.out.println(node.getText());
                         if (node.getFirstResult() == null && node.getSecondResult() == null) {
-                            System.out.println(" Вы проиграли");
+                            System.out.println("Вы проиграли");
+                            save = false;
 
                             finishGame = false;
+
                             break;
                         }
                         System.out.println(node.getFirstResult());
@@ -100,13 +123,26 @@ public class Game {
                 System.out.println("4.Сохранить игру?" + "\n" + "5.Не сохранять игру ");
                 int answer = scanner.nextInt();
                 if (answer == 4) {
-                    txtHandler.writeToFile(startIndexGame);
+                    save = true;
+                    resultSave = startIndexGame;
+                    return resultSave;
+
                 } else {
+                    save = false;
                     finishGame = false;
                 }
                 break;
             }
         }
         return startIndexGame;
+    }
+
+
+    public static boolean isSave() {
+        return save;
+    }
+
+    public static int getResultSave() {
+        return resultSave;
     }
 }
